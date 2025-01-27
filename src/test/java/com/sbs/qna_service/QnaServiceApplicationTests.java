@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class QnaServiceApplicationTests {
@@ -31,5 +35,62 @@ class QnaServiceApplicationTests {
         q2.setCreateDate(LocalDateTime.now());
         questionRepository.save(q2);    // 두번째 질문 저장
     }
+
+    @Test
+    @DisplayName("findAll") // [SQL] select * from question;
+    void t002() {
+        List<Question> all = questionRepository.findAll();
+        assertEquals(2, all.size());    // 현재 데이터가 2개냐?
+
+        Question q = all.get(0);    // 그 곳에 0번째 데이터를 질문객체 데이터 q에 넣음
+        assertEquals("sbb가 무엇인가요?", q.getSubject());    // 0번째 질문제목이 이거냐?
+    }
+
+    @Test
+    @DisplayName("findById") // [SQL] select * from question where id = 1;
+    void t003() {
+        Optional<Question> oq = questionRepository.findById(1);
+        if (oq.isPresent()) {
+            Question q = oq.get();
+            assertEquals("sbb가 무엇인가요?", q.getSubject());
+        }
+    }
+
+    @Test
+    @DisplayName("findBySubject") // [SQL] select * from question where subject = "sbb가 무엇인가요?";
+    void t004() {
+        Question q = questionRepository.findBySubject("sbb가 무엇인가요?");
+        assertEquals(1, q.getId());
+    }
+
+    /*
+    [SQL]
+    SELECT *
+    FROM question
+    WHERE subject = 'sbb가 무엇인가요?'
+    AND content = 'sbb에 대해서 알고 싶습니다.';
+    */
+    @Test
+    @DisplayName("findBySubjectAndContent")
+    void t005() {
+        Question q = questionRepository.findBySubjectAndContent(
+                "sbb가 무엇인가요?", "sbb에 대해 알고 싶습니다.");
+        assertEquals(1, q.getId());
+    }
+
+    /*
+    [SQL]
+    SELECT *
+    FROM question
+    WHERE subject LIKE 'sbb%';
+    */
+    @Test
+    @DisplayName("findBySubjectLike")
+    void t006() {
+        List<Question> qList = questionRepository.findBySubjectLike("sbb%");
+        Question q = qList.get(0);  // sbb로 시작하는 문장들 중 0번째 가져와
+        assertEquals("sbb가 무엇인가요?", q.getSubject());
+    }
+
 
 }
