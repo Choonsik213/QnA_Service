@@ -1,4 +1,4 @@
-package com.sbs.qna_service.boundedContext.answer;
+   package com.sbs.qna_service.boundedContext.answer;
 
 import com.sbs.qna_service.boundedContext.question.Question;
 import jakarta.persistence.*;
