@@ -1,5 +1,7 @@
 package com.sbs.qna_service;
 
+import com.sbs.qna_service.boundedContext.answer.Answer;
+import com.sbs.qna_service.boundedContext.answer.AnswerRepository;
 import com.sbs.qna_service.boundedContext.question.Question;
 import com.sbs.qna_service.boundedContext.question.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,9 @@ class QnaServiceApplicationTests {
     @Autowired  // 필드 주입
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private AnswerRepository answerRepository;
+
     @BeforeEach // 각 테스트 케이스 실행 전에 딱 한 번 먼저 실행 됨
     void beforeEach() {
         // 모든 데이터 삭제
@@ -28,6 +33,10 @@ class QnaServiceApplicationTests {
 
         // 흔적 삭제(다음 번 INSERT 때 Id가 1번으로 설정되도록)
         questionRepository.clearAutoIncrement();
+
+        // 모든 데이터 삭제
+        answerRepository.deleteAll();
+
 
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
@@ -146,6 +155,42 @@ class QnaServiceApplicationTests {
         Question q = oq.get();
         questionRepository.delete(q);
         assertEquals(1, questionRepository.count());
+    }
+
+    /*
+    * 특정 질문 가져오기
+    * SELECT *
+    * FROM question
+    * WHERE id = ?
+    *
+    * 질문에 대한 답변 저장
+    * INSERT INTO answer
+    * SET create_date = NOW(),
+    * content = ?,
+    * question_id = ?;
+    * */
+    @Test
+    @DisplayName("답변 데이터 생성 후 저장하기")  // 답변을 하려면 질문을 가져온 후 답변 저장해야지
+    void t009() {
+        Optional<Question> oq = questionRepository.findById(2);
+        assertTrue(oq.isPresent());
+        Question q = oq.get();
+
+        /*
+        // v1
+        Optional<Question> oq = questionRepository.findById(2);
+        Question q = oq.get();
+
+        // v2
+        Question q = questionRepository.findById(2).orElse(null)
+        */
+
+        Answer a = new Answer();
+        a.setContent("네 자동 생성됩니다.");
+        a.setQuestion(q);   // 어떤 질문의 답변인지 알기 위해서 Question객체가 필요하다.
+        a.setCreateDate(LocalDateTime.now());
+        answerRepository.save(a);
+
     }
 
 }
