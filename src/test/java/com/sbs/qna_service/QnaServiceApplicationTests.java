@@ -227,10 +227,10 @@ class QnaServiceApplicationTests {
         assertTrue(oq.isPresent());
         Question q = oq.get();
 
-        List<Answer> answerList = q.getAnswerList();
+        // SQL : SELECT* FROM answer WHERE question_id = 2;
+        List<Answer> answerList = q.getAnswerList();    // DB통신이 끊긴 뒤 answer을 가져옴 ->실패
 
         assertEquals(1, answerList.size());
         assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
     }
-
 }
