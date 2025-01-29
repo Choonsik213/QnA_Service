@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -26,7 +27,7 @@ public class Question {
     // 질문에서 답변을 참조할 수 없을까?
     // 만들면, 해당 객체(질문 객체)에서 관련된 답변을 찾을 때 편하다.
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    private List<Answer> answerList;
+    private List<Answer> answerList = new ArrayList<>();
 
     private LocalDateTime createDate;
 
