@@ -29,6 +29,12 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList = new ArrayList<>();
 
+    // 외부에서 answerList필드에 접근하는 것을 차단 -> '캡슐화'라고 함
+    public void addAnswer(Answer a) {
+        a.setQuestion(this);
+        answerList.add(a);
+    }
+
     private LocalDateTime createDate;
 
     public Question() {
