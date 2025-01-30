@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -55,7 +56,7 @@ class QnaServiceApplicationTests {
 
         // 답변 1개 생성하기
         Answer a1 = new Answer();
-        a1.setContent("네 자동으로 생성됩니다.");
+        a1.setContent("저도 알고싶습니다.");
         q2.addAnswer(a1);
         a1.setCreateDate(LocalDateTime.now());
         answerRepository.save(a1);
@@ -229,6 +230,7 @@ class QnaServiceApplicationTests {
     @Transactional  // 테스트코드에서는 Transactional을 붙여줘야한다.
     @Test
     @DisplayName("짊문을 통해 답변 찾기")
+    @Rollback(false)    // 테스트 메서드가 끝난 후에도 트랜잭션이 롤백되지 않고 커밋된다.
     void t011() {
         System.out.println("실행됨");
         // SQL : SELECT * FROM question WHERE id = 2;
