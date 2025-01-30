@@ -26,7 +26,7 @@ public class Question {
 
     // 질문에서 답변을 참조할 수 없을까?
     // 만들면, 해당 객체(질문 객체)에서 관련된 답변을 찾을 때 편하다.
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // fetch = FetchType.EAGER 테스트는 나중에 해봐
     private List<Answer> answerList = new ArrayList<>();
 
     // 외부에서 answerList필드에 접근하는 것을 차단 -> '캡슐화'라고 함

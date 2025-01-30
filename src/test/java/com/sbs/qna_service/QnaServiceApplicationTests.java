@@ -203,11 +203,11 @@ class QnaServiceApplicationTests {
     }
 
     /*
-    SELECT A.*,Q.*
+    SELECT Q.*,A.*
     FROM answer AS A
     LEFT JOIN question AS Q
-    on q1_0.id = a1_0.question_id
-    where A.id = ?
+    ON Q.id = A.question_id
+    WHERE A.id = ?
     */
     @Test
     @DisplayName("답변데이터 조회하기")
@@ -218,14 +218,24 @@ class QnaServiceApplicationTests {
         assertEquals(2, a.getQuestion().getId());
     }
 
+    /*
+     * #EAGER를 사용한 경우
+     * SELECT Q*, A*
+     * FROM question AS Q
+     * LEFT JOIN answer AS A
+     * ON Q.id = A.question_id
+     * WHERE Q.id = ?
+     */
     @Transactional  // 테스트코드에서는 Transactional을 붙여줘야한다.
     @Test
     @DisplayName("짊문을 통해 답변 찾기")
     void t011() {
+        System.out.println("실행됨");
         // SQL : SELECT * FROM question WHERE id = 2;
         Optional<Question> oq = questionRepository.findById(2);
         assertTrue(oq.isPresent());
         Question q = oq.get();
+        //테스트 환경에서는 get해서 가져온 뒤 DB연결을 끊음
 
         // SQL : SELECT* FROM answer WHERE question_id = 2;
         List<Answer> answerList = q.getAnswerList();    // DB통신이 끊긴 뒤 answer을 가져옴 ->실패
