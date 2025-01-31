@@ -1,12 +1,13 @@
    package com.sbs.qna_service.boundedContext.answer;
 
-import com.sbs.qna_service.boundedContext.question.Question;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+   import com.sbs.qna_service.boundedContext.question.Question;
+   import jakarta.persistence.*;
+   import lombok.AllArgsConstructor;
+   import lombok.Data;
+   import lombok.NoArgsConstructor;
+   import lombok.ToString;
 
-import java.time.LocalDateTime;
+   import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class Answer {
     private LocalDateTime createDate;
 
     @ManyToOne
+    @ToString.Exclude   // ToString 대상에서 제외
     private Question question;  // question_id 생성
 
 }
