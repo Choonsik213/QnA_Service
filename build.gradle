@@ -24,21 +24,33 @@ repositories {
 }
 
 dependencies {
+    // 기본 Spring Boot Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Lombok (컴파일 전용)
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 개발 편의 기능 (Hot Reload 등)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // MySQL 연동
     runtimeOnly 'com.mysql:mysql-connector-j'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // test용
+    // Thymeleaf & Layout Dialect (HTML 템플릿 엔진)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
+
+    // 테스트 관련
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
-    jvmArgs '-Xshare:off'   // JVM아규먼트 설정(테스트실행시 빨간색에러 안보여줌)
+    jvmArgs '-Xshare:off'  // JVM 아규먼트 설정 (테스트 실행 시 불필요한 로그 제거)
 }
