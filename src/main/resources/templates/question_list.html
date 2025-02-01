@@ -1,7 +1,6 @@
 <h1>질문 리스트</h1>
 
 [[${questionList}]]
-<h2>[[${age}]]</h2>
 
 <table border="1">
     <colgroup>
@@ -18,14 +17,14 @@
     </thead>
     <tbody>
         <tr>
-            <td>2</td>
-            <td>스프링부트 모델 질문입니다.</td>
-            <td>2025-01-31 09:38:16.153294</td>
+            <td th:text="${questionList[1].id}"></td>
+            <td th:text="${questionList[1].subject}"></td>
+            <td th:text="${questionList[1].createDate}"></td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>sbb가 무엇인가요?</td>
-            <td>2025-01-31 09:38:16.152654</td>
+            <td>[[${questionList[0].id}]]</td>
+            <td>[[${questionList[0].subject}]]</td>
+            <td>[[${questionList[0].createDate}]]</td>
         </tr>
         <tr>
             <td>id</td>
