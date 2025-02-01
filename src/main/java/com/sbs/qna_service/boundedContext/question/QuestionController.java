@@ -11,11 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor    //
 public class QuestionController {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
 
     @GetMapping("/question/list")
     public String list(Model model) {
-        List<Question> questionList = questionRepository.findAll();
+        List<Question> questionList = questionService.findAll();
 
         model.addAttribute("questionList", questionList);   // questionList라는 이름으로 화면에 뿌려준다.
         return "question_list";
