@@ -12,4 +12,11 @@ public class HomeController {
     public String showHome() {
         return "안녕";
     }
+
+    @GetMapping("/")
+    public String root() {
+        // redirect : 302
+        // 302에러는 '이 분을 찾아가보세요."라고 응답
+        return "redirect:/question/list";
+    }
 }
