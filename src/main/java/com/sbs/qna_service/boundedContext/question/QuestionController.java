@@ -24,6 +24,11 @@ public class QuestionController {
 
     @GetMapping(value = "/question/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
+        // 1. 질문에 대한 데이터를 가져오려고 해, 내가 id값 줄게.
+        Question question = questionService.getQuestion(id);
+
+        model.addAttribute("question", question);
+
         return "question_detail";
     }
 }
